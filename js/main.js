@@ -4,7 +4,7 @@ let fps = 15;
 let cols = 5; // minimum 5 columns use
 let rows = cols % 2 ? cols + 2 : cols + 3;
 let mines = 1;
-let scale = 1;
+let scale = 5;
 
 const min = Math.min(window.innerWidth, window.innerHeight);
 let size = Math.floor(min / (cols + 1));
