@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Minesweeper</title>
+
+   <!-- css -->
+   <link rel="stylesheet" href="style.css">
+
+   <!-- js -->
+   <script defer src="./js/utils.js"></script>
+   <script defer src="./js/cell.js"></script>
+   <script defer src="./js/game.js"></script>
+   <script defer src="./js/main.js"></script>
+</head>
+<body>
+   <audio src="./src/mp3/bg.mp3" id="audio_bg"></audio>
+   <audio src="./src/mp3/boom.mp3" id="audio_boom"></audio>
+   <audio src="./src/mp3/game_over.mp3" id="audio_game_over"></audio>
+   <audio src="./src/mp3/show.mp3" id="audio_show"></audio>
+   <audio src="./src/mp3/win.mp3" id="audio_win"></audio>
+   
+   <div id="display">
+      <div id="setting">
+
+      </div>
+      <div id="flagBox">
+         <div id="flagCoutn">10</div>
+         <div id="flagIcon">
+            <img src="./src/img/flag.png">
+         </div>
+      </div>
+      <div id="emoji" class="normal">
+         <img src="./src/img/normal.png">
+         <img src="./src/img/win.gif">
+         <img src="./src/img/safe.gif">
+         <img src="./src/img/game_over.gif">
+      </div>
+      <div id="timeBox">001</div>
+      <div id="replay"><img src="./src/img/replay.png"></div>
+   </div>
+   <canvas id="myCanvas"></canvas>
+   <div id="__fps"></div>
+</body>
+</html>
