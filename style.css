@@ -12,6 +12,13 @@
    font-style: normal;
 }
 
+@font-face {
+   font-family: n;
+   src: url("./src/ChakraPetch-Bold.woff") format("truetype");
+   font-weight: normal;
+   font-style: normal;
+}
+
 * {
    margin: 0;
    padding: 0;
@@ -24,7 +31,7 @@
    -webkit-touch-callout: none;
    font-family: roboto;
 
-   outline: solid 1px #f007;
+   /* outline: solid 1px #f007; */
 }
 
 body {
@@ -67,21 +74,67 @@ body {
    background: #ffffff77;
    padding: 10px;
    backdrop-filter: blur(5px);
+   border-bottom: 3px solid #0009;
 }
 
 #display #setting {
    position: relative;
    width: 50px;
    height: 50px;
+   background: #eee;
+   border-radius: 10px;
+   box-shadow: inset 2px 2px 3px #fff, inset -2px -2px 3px #999, 2px 2px 3px #000;
+
 }
+#display #setting #icon {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   display: grid;
+   place-items: center;
+}
+#display #setting #icon span {
+   position: relative;
+   width: 80%;
+   height: 6px;
+   background: #000;
+   border-radius: 5px;
+   transition: linear 200ms transform, linear 200ms background;
+}
+#display #setting #icon span:before,
+#display #setting #icon span::after {
+   position: absolute;
+   content: "";
+   width: 100%;
+   height: 100%;
+   background: #000;
+   border-radius: 5px;
+   transform: translate(0, -12px);
+   transition: linear 200ms transform;
+}
+#display #setting #icon span::after {
+   transform: translate(0, 12px);
+}
+
+#display #setting.active #icon span {
+   background: #0000;
+}
+#display #setting.active #icon span:before,
+#display #setting.active #icon span::after  {
+   transform: translate(0, 0) rotate(45deg);
+}
+#display #setting.active #icon span::after {
+   transform: translate(0, 0) rotate(-45deg);
+}
+
+
 
 #display #flagBox {
    position: relative;
-   width: 90px;
-   height: 50px;
+   width: 70px;
+   height: 40px;
    display: grid;
-   padding: 5px;
-   grid-template-columns: 40px 1fr;
+   grid-auto-flow: column;
    place-items: center;
    background: #0007;
    box-shadow: inset 0 0 5px #000;
@@ -89,15 +142,18 @@ body {
 }
 
 #display #flagBox #flagCoutn {
+   position: relative;
+   width: 32px;
+   text-align: center;
    color: #fff;
-   font-family: f;
-   font-size: 28px;
+   font-family: n;
+   font-size: 24px;
 }
 
 #display #flagBox #flagIcon {
    position: relative;
-   height: 100%;
-   width: 100%;
+   height: 34px;
+   width: 34px;
 }
 
 #display #flagBox #flagIcon img {
@@ -162,16 +218,16 @@ body {
 #display #timeBox {
    position: relative;
    width: 70px;
-   height: 50px;
+   height: 40px;
    display: grid;
-   padding: 5px;
    place-items: center;
    background: #0007;
    box-shadow: inset 0 0 5px #000;
    border-radius: 5px;
    color: #fff;
-   font-family: f;
-   font-size: 36px;
+   text-shadow: 0 0 1px #000;
+   font-family: n;
+   font-size: 30px;
    letter-spacing: 1px;
 }
 
