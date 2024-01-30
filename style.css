@@ -127,8 +127,6 @@ body {
    transform: translate(0, 0) rotate(-45deg);
 }
 
-
-
 #display #flagBox {
    position: relative;
    width: 70px;
@@ -147,7 +145,7 @@ body {
    text-align: center;
    color: #fff;
    font-family: n;
-   font-size: 24px;
+   font-size: 22px;
 }
 
 #display #flagBox #flagIcon {
@@ -170,25 +168,18 @@ body {
 }
 
 #display #emoji img {
-   position: relative;
+   position: absolute;
    width: 100%;
    height: 100%;
+   opacity: 1;
+   transition: linear 400ms opacity;
 }
 
-#display #emoji.normal img:not(:first-child) {
-   display: none;
-}
-
-#display #emoji.win img:not(:nth-child(2)) {
-   display: none;
-}
-
-#display #emoji.safe img:not(:nth-child(3)) {
-   display: none;
-}
-
+#display #emoji.normal img:not(:first-child),
+#display #emoji.win img:not(:nth-child(2)),
+#display #emoji.safe img:not(:nth-child(3)),
 #display #emoji.over img:not(:last-child) {
-   display: none;
+   opacity: 0;
 }
 
 #display #emoji img:first-child {
@@ -200,7 +191,7 @@ body {
 }
 
 
-#display #replay {
+#display #restart {
    position: relative;
    width: 50px;
    height: 50px;
@@ -209,7 +200,7 @@ body {
    box-shadow: inset 2px 2px 3px #fff, inset -2px -2px 3px #999, 2px 2px 3px #000;
 }
 
-#display #replay img {
+#display #restart img {
    position: relative;
    width: 100%;
    height: 100%;

@@ -4,10 +4,10 @@ let fps = 15;
 let cols = 5; // minimum 5 columns use
 let rows = cols % 2 ? cols + 2 : cols + 3;
 let mines = 1;
-let scale = 5;
 
 const min = Math.min(window.innerWidth, window.innerHeight);
-let size = Math.floor(min / (cols + 1));
+let size = window.innerWidth > window.innerHeight ? 
+            Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
 
 const imgs = {
    boom: new Image(),
@@ -25,10 +25,18 @@ const mp3 = {
 }
 
 const ani = new Animation(fps, animate);
-let game = new Game(rows, cols, size, mines, scale, cvs, imgs, mp3);
+let game = new Game(rows, cols, size, mines, cvs, imgs, mp3);
 
 function animate() {
    game.update();
    game.draw();
 }
 ani.start();
+
+restart.addEventListener("click", () => {
+   game.reset();
+})
+
+window.addEventListener("click", () => {
+game.playBGaudio();
+}, { once: true })
