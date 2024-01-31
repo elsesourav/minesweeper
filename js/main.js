@@ -57,9 +57,9 @@ function updateLocalValues() {
    });
 }
 
-let mines = Math.round(cols * deff[selectDeffIndex] * (1 + mapSizeIndex / 2));
-const min = Math.min(window.innerWidth, window.innerHeight);
-let size = window.innerWidth > window.innerHeight ?
+let mines = Math.round(cols * deff[selectDeffIndex] * (1 + mapSizeIndex / 4));
+const min = Math.min(innerWidth, innerHeight);
+let size = innerWidth > innerHeight ?
    Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
 
 
@@ -87,7 +87,7 @@ icon.addEventListener("click", () => {
    if (settingIsOpen) setting.classList.add("show");
    else setTimeout(() => setting.classList.remove("show"), 200);
 })
-window.addEventListener("click", () => game.playBGaudio(), { once: true })
+addEventListener("click", () => game.playBGaudio(), { once: true })
 
 musicInput.addEventListener("change", (e) => {
    const value = Number(e.target.value);
@@ -106,19 +106,33 @@ mapSize.addEventListener("change", (e) => {
    cols = maps[mapSizeIndex = value];
    rows = cols % 2 ? cols + 2 : cols + 3;
 
-   const min = Math.min(window.innerWidth, window.innerHeight);
-   size = window.innerWidth > window.innerHeight ?
+   const min = Math.min(innerWidth, innerHeight);
+   size = innerWidth > innerHeight ?
       Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
    console.log(mapSizeIndex);
 
-   mines = Math.floor(cols * deff[selectDeffIndex] * (1 + mapSizeIndex / 2));
+   mines = Math.floor(cols * deff[selectDeffIndex] * (1 + mapSizeIndex / 4));
    game.reset(rows, cols, size, mines);
    updateLocalValues();
 });
 
 difficulty.addEventListener("change", (e) => {
    const value = Number(e.target.value);
-   mines = Math.round(cols * deff[selectDeffIndex = value] * (1 + mapSizeIndex / 2));
+   mines = Math.round(cols * deff[selectDeffIndex = value] * (1 + mapSizeIndex / 4));
    game.reset(rows, cols, size, mines);
    updateLocalValues();
 });
+
+document.addEventListener('visibilitychange', function () {
+   if (document.visibilityState === 'visible') {
+      game.setMusicVolume(musicVolume);
+      game.setEffectVolume(musicVolume);
+   } else {
+      game.setMusicVolume(0);
+      game.setEffectVolume(0);
+   }
+});
+
+addEventListener("load", () => {
+   waitingWindow.classList.remove("active");
+})

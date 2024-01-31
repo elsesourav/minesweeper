@@ -241,11 +241,11 @@ class Game {
 
 
       flagBox.addEventListener("mousedown", down);
-      window.addEventListener("mousemove", move);
-      window.addEventListener("mouseup", end);
+      addEventListener("mousemove", move);
+      addEventListener("mouseup", end);
       flagBox.addEventListener("touchstart", down);
-      window.addEventListener("touchmove", move);
-      window.addEventListener("touchend", end);
+      addEventListener("touchmove", move);
+      addEventListener("touchend", end);
    }
 
    draw() {
@@ -299,7 +299,7 @@ class Game {
          this.emojiTimID = setTimeout(() => {
             emoji.classList = [];
             emoji.classList.add("normal");
-         }, 2400);
+         }, 1000);
       }
    }
 

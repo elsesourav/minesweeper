@@ -4,10 +4,10 @@
 const cssRoot = document.querySelector(':root');
 
 // when run this app in mobile is return true
-const isMobile = localStorage.mobile || window.navigator.maxTouchPoints > 1;
+const isMobile = localStorage.mobile || navigator.maxTouchPoints > 1;
 
 // minimum window size
-const minSize = window.innerWidth > window.innerHeight ? window.innerHeight : window.innerWidth;
+const minSize = innerWidth > innerHeight ? innerHeight : innerWidth;
 
 const toRadian = degree => (degree * Math.PI) / 180;// degree to radian
 const toDegree = radian => (radian * 180) / Math.PI;// radian to Degree
