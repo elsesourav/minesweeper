@@ -3,14 +3,16 @@ if (isMobile) {
    document.body.classList.add("mobile");
 }
 
+const localKey = "___S_B__Minesweeper___";
+const maps = [5, 7, 10, 14];
+const deff = [1.2, 2.4, 4]
 let fps = 15;
 let cols = 5; // minimum 5 columns use
 let rows = cols % 2 ? cols + 2 : cols + 3;
-let mines = 2;
-
-const min = Math.min(window.innerWidth, window.innerHeight);
-let size = window.innerWidth > window.innerHeight ? 
-            Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
+let selectDeffIndex = 0;
+let mapSizeIndex = 0;
+let musicVolume = 1;
+let effectVolume = 1;
 
 const imgs = {
    boom: new Image(),
@@ -28,8 +30,45 @@ const mp3 = {
    win: $("audio_win")
 }
 
+// set and localStorage values
+if (localStorage.getItem(localKey) === null) {
+   updateLocalValues();
+} else {
+   const loclaValues = getDataFromLocalStorage(localKey);
+   cols = loclaValues.cols;
+   effectVolume = loclaValues.effectVolume;
+   musicVolume = loclaValues.musicVolume;
+   rows = loclaValues.rows;
+   selectDeffIndex = loclaValues.selectDeffIndex;
+   mapSizeIndex = loclaValues.mapSizeIndex;
+
+   musicInput.value = musicVolume;
+   effectInput.value = effectVolume;
+   mapSize.selectedIndex = mapSizeIndex;
+   difficulty.selectedIndex = selectDeffIndex;
+}
+
+function updateLocalValues() {
+   setDataFromLocalStorage(localKey, {
+      musicVolume: musicVolume,
+      effectVolume: effectVolume,
+      selectDeffIndex: selectDeffIndex,
+      mapSizeIndex: mapSizeIndex,
+      rows: rows,
+      cols: cols
+   });
+}
+
+let mines = Math.round(cols * deff[selectDeffIndex]);;
+const min = Math.min(window.innerWidth, window.innerHeight);
+let size = window.innerWidth > window.innerHeight ?
+   Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
+
 const ani = new Animation(fps, animate);
 let game = new Game(rows, cols, size, mines, cvs, imgs, mp3);
+
+game.setMusicVolume(musicVolume);
+game.setEffectVolume(musicVolume);
 
 function animate() {
    game.update();
@@ -41,6 +80,7 @@ restart.addEventListener("click", () => {
    game.reset();
 })
 
+
 let settingIsOpen = false;
 icon.addEventListener("click", () => {
    settingIsOpen = !settingIsOpen;
@@ -48,6 +88,37 @@ icon.addEventListener("click", () => {
    if (settingIsOpen) setting.classList.add("show");
    else setTimeout(() => setting.classList.remove("show"), 200);
 })
-window.addEventListener("click", () => {
-game.playBGaudio();
-}, { once: true })
+window.addEventListener("click", () => game.playBGaudio(), { once: true })
+
+musicInput.addEventListener("change", (e) => {
+   const value = Number(e.target.value);
+   game.setMusicVolume(musicVolume = value * value);
+   updateLocalValues();
+});
+
+effectInput.addEventListener("change", (e) => {
+   const value = Number(e.target.value);
+   game.setEffectVolume(effectVolume = value * value);
+   updateLocalValues();
+});
+
+mapSize.addEventListener("change", (e) => {
+   const value = Number(e.target.value);
+   cols = maps[selectDeffIndex = value];
+   rows = cols % 2 ? cols + 2 : cols + 3;
+
+   const min = Math.min(window.innerWidth, window.innerHeight);
+   size = window.innerWidth > window.innerHeight ?
+      Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
+
+   mines = Math.floor(cols * deff[selectDeffIndex]);
+   game.reset(rows, cols, size, mines);
+   updateLocalValues();
+});
+
+difficulty.addEventListener("change", (e) => {
+   const value = Number(e.target.value);
+   mines = Math.round(cols * deff[selectDeffIndex = value]);
+   game.reset(rows, cols, size, mines);
+   updateLocalValues();
+});

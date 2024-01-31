@@ -40,13 +40,13 @@ body {
    height: 100svh;
    display: grid;
    place-items: center;
-   grid-template-rows: 70px auto;
    overflow: hidden;
    background: linear-gradient(to right, #3c3c47, #737389, #3c3c47);
 }
 
 #myCanvas {
-   position: relative;
+   position: absolute;
+   margin-top: 100px;
    z-index: 2;
 }
 
@@ -69,9 +69,11 @@ body {
 }
 
 #display {
-   position: relative;
+   position: fixed;
    width: 100%;
-   height: min-content;
+   height: max-content;
+   top: 0;
+   left: 0;
    z-index: 4;
    display: flex;
    justify-content: space-evenly;
@@ -225,7 +227,7 @@ select:has(option:nth-child(4):checked) {
    background: #ee000099;
    border: solid 2px #ff2d2d;
 }
-#difficulty select:has(option:nth-child(3):checked) {
+.select-box:last-child select:has(option:nth-child(3):checked) {
    background: #ee000099;
    border: solid 2px #ff2d2d;
 }

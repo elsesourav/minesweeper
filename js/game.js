@@ -170,6 +170,7 @@ class Game {
                      // GAME OVER
                      this.#gameOver();
                      clearInterval(this.intervalID);
+                     this.#setEmojiStatus("over");
                      return true;
                   } else if (neighbors === 0) {
                      this.showCells.push(cell);
@@ -283,6 +284,7 @@ class Game {
          if (this.timer > 998) {
             this.#gameOver();
             clearInterval(this.intervalID);
+            this.#setEmojiStatus("over");
             timeBox.style.color = "red";
          }
          timeBox.innerText = this.timer > 99 ? this.timer
@@ -314,7 +316,6 @@ class Game {
    #gameOver() {
       this.isGameOver = true;
       this.mp3.boom.play();
-      this.#setEmojiStatus("over");
       this.grid.forEach(_ => _.forEach(c => {
          if (c.mine) c.show = true;
          else c.open = true;
@@ -345,7 +346,19 @@ class Game {
 
    playBGaudio() {
       this.mp3.bg.loop = true;
-      // this.mp3.bg.play();
+      this.mp3.bg.play();
+   }
+
+   setMusicVolume(volume) {
+      this.mp3.bg.volume = volume;
+   }
+   
+   setEffectVolume(volume) {
+      this.mp3.boom.volume = volume;
+      this.mp3.flag.volume = volume;
+      this.mp3.gameOver.volume = volume;
+      this.mp3.show.volume = volume;
+      this.mp3.win.volume = volume;
    }
 
    #playFlagAudio() {
