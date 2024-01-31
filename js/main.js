@@ -41,6 +41,9 @@ restart.addEventListener("click", () => {
    game.reset();
 })
 
+setting.addEventListener("click", () => {
+   setting.classList.toggle("active");
+})
 window.addEventListener("click", () => {
 game.playBGaudio();
 }, { once: true })
