@@ -6,13 +6,15 @@ class Game {
       this.mine = mine;
       this.cvs = cvs;
       this.mp3 = mp3;
+      this.c = cvs.getContext("2d");
+
+      this.grid = [];
+      this.showCells = [];
+      this.nextNeighborQueue = [];
+      
       imgs.boom.onload = () => {
          this.imgs = imgs;
-         this.c = cvs.getContext("2d");
 
-         this.grid = [];
-         this.showCells = [];
-         this.nextNeighborQueue = [];
          this.#eventHandler();
          this.#setup();
       }
