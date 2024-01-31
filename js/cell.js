@@ -1,5 +1,5 @@
 class Cell {
-   constructor(x, y, size, i, j) {
+   constructor(x, y, size, i, j, flag) {
       this.i = i;
       this.j = j;
       this.x = x * size * 2 + size * 2;
@@ -11,11 +11,11 @@ class Cell {
       this.open = false;
       this.show = false;
       this.hover = false;
-      this.isFlag = false;
+      this.showFlag = false;
       this.hexPath = new Path2D();
       this.#createHexagon();
+      this.imgFlag = flag;
       this.imgBoom;
-      this.imgFlag;
       this.count = 0;
    }
 
@@ -54,31 +54,29 @@ class Cell {
       c.fill(this.hexPath);
       c.stroke(this.hexPath);
 
-      if (this.mine) {
-         if (this.show) {
-            if (this.count++ > 20) this.count = 0;
-   
-            c.drawImage(this.imgBoom,
-               this.count * 300,
-               0, 300, 302,
-               this.x - this.size,
-               this.y - this.size,
-               this.size * 2,
-               this.size * 2,
-            );
-         } else if (this.isFlag){
-            c.drawImage(this.imgFlag,
-               0, 0, 64, 64,
-               this.x - this.size / 2,
-               this.y - this.size / 2,
-               this.size,
-               this.size,
-            );
-         }
+      if (this.mine && this.show) {
+         if (this.count++ > 20) this.count = 0;
+
+         c.drawImage(this.imgBoom,
+            this.count * 300,
+            0, 300, 302,
+            this.x - this.size,
+            this.y - this.size,
+            this.size * 2,
+            this.size * 2,
+         );
       } else if (this.show && this.neighbors > 0) {
          c.shadowColor = "#0000";
          this.textColor = this.color = `hsl(${map(this.neighbors, 1, 6, 90, 360)}, 100%, 60%)`;
          this.#drawText(c, this.neighbors, this.x, this.y, 25, this.textColor);
+      } else if (!this.show && this.showFlag){
+         c.drawImage(this.imgFlag,
+            0, 0, 64, 64,
+            this.x - this.size / 2,
+            this.y - this.size / 2,
+            this.size,
+            this.size,
+         );
       }
    }
 }

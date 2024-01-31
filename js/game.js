@@ -36,7 +36,7 @@ class Game {
       this.height = (this.rows - 1) * this.size + this.size;
       this.isGameOver = false;
       this.isFirstClick = true;
-      
+
       cvs.width = this.width;
       cvs.height = this.height;
       cvs.style.width = `${this.width}px`;
@@ -48,6 +48,8 @@ class Game {
       this.c.imageSmoothingEnabled = false;
       timeBox.innerText = "000";
       flagCoutn.innerText = this.mine;
+      moveFlag.style.width = `${this.size / 1.8}px`;
+      moveFlag.style.height = `${this.size / 1.8}px`;
       this.#setPoints();
       this.#setEmojiStatus("normal");
    }
@@ -62,7 +64,7 @@ class Game {
          const offx = y % 2 ? 0.5 : 0;
 
          for (let x = 0; x < _cols; x++) {
-            this.grid[y][x] = new Cell(x + offx, y, size / 2, x, y);
+            this.grid[y][x] = new Cell(x + offx, y, size / 2, x, y, this.imgs.flag);
          }
       }
    }
@@ -129,6 +131,16 @@ class Game {
       }
    }
 
+   #inputSetFlag(x, y) {
+      this.grid.some(cols => cols.some(cell => {
+         if (pointInCircle(cell, x, y) && !cell.showFlag) {
+            cell.showFlag = true;
+            this.#playFlagAudio()
+            flagCoutn.innerText = --this.flagCont;
+         }
+      }));
+   }
+
    #inputsAction(x, y, isHover = false) {
       this.grid.some(cols => cols.some(cell => {
          if (pointInCircle(cell, x, y)) {
@@ -187,6 +199,7 @@ class Game {
    }
 
    #eventHandler() {
+      let isDown = false, lx, ly;
       this.cvs.addEventListener("click", (e) => {
          const { top, left } = this.cvs.getBoundingClientRect();
          this.#inputsAction(e.clientX - left, e.clientY - top)
@@ -195,6 +208,44 @@ class Game {
          const { top, left } = this.cvs.getBoundingClientRect();
          this.#inputsAction(e.clientX - left, e.clientY - top, true)
       })
+
+      const down = (e) => {
+         if (this.flagCont > 0) {
+            if (e.type == "touchstart") e = e.touches[0];
+            moveFlag.style.left = `${e.clientX - this.size / 4}px`;
+            moveFlag.style.top = `${e.clientY - this.size / 4}px`;
+            isDown = true;
+            moveFlag.style.opacity = 1;
+         }
+      }
+      const move = (e) => {
+         if (e.type == "touchmove") e = e.touches[0];
+         lx = e.clientX;
+         ly = e.clientY;
+
+         if (isDown) {
+            moveFlag.style.left = `${lx - this.size / 4}px`;
+            moveFlag.style.top = `${ly - this.size / 4}px`;
+         }
+      }
+      const end = () => {
+         if (isDown) {
+            isDown = false;
+            moveFlag.style.opacity = 0;
+            moveFlag.style.left = 0;
+            moveFlag.style.top = 0;
+            const { top, left } = this.cvs.getBoundingClientRect();
+            this.#inputSetFlag(lx - left, ly - top);
+         }
+      }
+
+
+      flagBox.addEventListener("mousedown", down);
+      window.addEventListener("mousemove", move);
+      window.addEventListener("mouseup", end);
+      flagBox.addEventListener("touchstart", down);
+      window.addEventListener("touchmove", move);
+      window.addEventListener("touchend", end);
    }
 
    draw() {
@@ -214,6 +265,9 @@ class Game {
       this.fpsCount++;
       if (this.showCells.length > 0) {
          const cell = this.showCells.shift();
+         if (cell.showFlag) {
+            flagCoutn.innerText = ++this.flagCont;
+         }
          cell.show = true;
          this.mp3.show.currentTime = 0;
          this.mp3.show.play();
@@ -227,7 +281,7 @@ class Game {
          // this.fpsCount = 0;
          this.timer++;
          timeBox.innerText = this.timer > 99 ? this.timer
-         : this.timer > 9 ? `0${this.timer}` : `00${this.timer}`;
+            : this.timer > 9 ? `0${this.timer}` : `00${this.timer}`;
 
       }, 1000);
    }
@@ -284,9 +338,13 @@ class Game {
    }
 
    playBGaudio() {
-      this.mp3.bg.volume = 0.1;
       this.mp3.bg.loop = true;
       this.mp3.bg.play();
+   }
+
+   #playFlagAudio() {
+      this.mp3.flag.currentTime = 0;
+      this.mp3.flag.play();
    }
 
 }
