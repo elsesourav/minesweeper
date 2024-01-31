@@ -33,7 +33,7 @@ class Game {
       this.nextNeighborQueue = [];
       this.flagCont = this.mine;
       this.width = this.cols * this.size + this.size;
-      this.height = (this.rows - 1) * this.size + this.size;
+      this.height = Math.floor(this.rows - this.rows * 0.1) * this.size + this.size;
       this.isGameOver = false;
       this.isFirstClick = true;
 
@@ -170,7 +170,6 @@ class Game {
                      // GAME OVER
                      this.#gameOver();
                      clearInterval(this.intervalID);
-                     this.#setEmojiStatus("over");
                      return true;
                   } else if (neighbors === 0) {
                      this.showCells.push(cell);
@@ -284,7 +283,6 @@ class Game {
          if (this.timer > 998) {
             this.#gameOver();
             clearInterval(this.intervalID);
-            this.#setEmojiStatus("over");
             timeBox.style.color = "red";
          }
          timeBox.innerText = this.timer > 99 ? this.timer
@@ -298,7 +296,7 @@ class Game {
       emoji.classList.add(className);
 
       if (is) {
-         setTimeout(() => {
+         this.emojiTimID = setTimeout(() => {
             emoji.classList = [];
             emoji.classList.add("normal");
          }, 2400);
@@ -316,6 +314,8 @@ class Game {
    #gameOver() {
       this.isGameOver = true;
       this.mp3.boom.play();
+      clearTimeout(this.emojiTimID);
+      this.#setEmojiStatus("over");
       this.grid.forEach(_ => _.forEach(c => {
          if (c.mine) c.show = true;
          else c.open = true;

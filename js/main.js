@@ -5,7 +5,7 @@ if (isMobile) {
 
 const localKey = "___S_B__Minesweeper___";
 const maps = [5, 7, 10, 14];
-const deff = [1, 2, 4]
+const deff = [1, 2, 3]
 let fps = 15;
 let cols = 5;
 let rows = cols % 2 ? cols + 2 : cols + 3;
@@ -59,7 +59,7 @@ function updateLocalValues() {
    });
 }
 
-let mines = Math.round(cols * deff[selectDeffIndex]);;
+let mines = Math.round(cols * deff[selectDeffIndex] * (1 + mapSizeIndex / 2));
 const min = Math.min(window.innerWidth, window.innerHeight);
 let size = window.innerWidth > window.innerHeight ?
    Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
@@ -104,21 +104,22 @@ effectInput.addEventListener("change", (e) => {
 
 mapSize.addEventListener("change", (e) => {
    const value = Number(e.target.value);
-   cols = maps[selectDeffIndex = value];
+   cols = maps[mapSizeIndex = value];
    rows = cols % 2 ? cols + 2 : cols + 3;
 
    const min = Math.min(window.innerWidth, window.innerHeight);
    size = window.innerWidth > window.innerHeight ?
       Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
+   console.log(mapSizeIndex);
 
-   mines = Math.floor(cols * deff[selectDeffIndex]);
+   mines = Math.floor(cols * deff[selectDeffIndex] * (1 + mapSizeIndex / 2));
    game.reset(rows, cols, size, mines);
    updateLocalValues();
 });
 
 difficulty.addEventListener("change", (e) => {
    const value = Number(e.target.value);
-   mines = Math.round(cols * deff[selectDeffIndex = value]);
+   mines = Math.round(cols * deff[selectDeffIndex = value] * (1 + mapSizeIndex / 2));
    game.reset(rows, cols, size, mines);
    updateLocalValues();
 });
