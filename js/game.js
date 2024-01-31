@@ -5,15 +5,18 @@ class Game {
       this.size = size;
       this.mine = mine;
       this.cvs = cvs;
-      this.imgs = imgs;
       this.mp3 = mp3;
-      this.c = cvs.getContext("2d");
+      imgs.boom.onload = () => {
+         this.imgs = imgs;
+         this.c = cvs.getContext("2d");
 
-      this.grid = [];
-      this.showCells = [];
-      this.nextNeighborQueue = [];
-      this.#eventHandler();
-      this.#setup();
+         this.grid = [];
+         this.showCells = [];
+         this.nextNeighborQueue = [];
+         this.#eventHandler();
+         this.#setup();
+      }
+
 
       this.regex = {
          even: [[-1, -1], [0, -1], [1, 0], [0, 1], [-1, 1], [-1, 0]],
@@ -352,7 +355,7 @@ class Game {
    setMusicVolume(volume) {
       this.mp3.bg.volume = volume;
    }
-   
+
    setEffectVolume(volume) {
       this.mp3.boom.volume = volume;
       this.mp3.flag.volume = volume;

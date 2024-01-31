@@ -64,6 +64,7 @@ const min = Math.min(window.innerWidth, window.innerHeight);
 let size = window.innerWidth > window.innerHeight ?
    Math.floor(min / (rows + 1)) : Math.floor(min / (cols + 1));
 
+
 const ani = new Animation(fps, animate);
 let game = new Game(rows, cols, size, mines, cvs, imgs, mp3);
 
