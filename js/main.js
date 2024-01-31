@@ -41,8 +41,12 @@ restart.addEventListener("click", () => {
    game.reset();
 })
 
-setting.addEventListener("click", () => {
-   setting.classList.toggle("active");
+let settingIsOpen = false;
+icon.addEventListener("click", () => {
+   settingIsOpen = !settingIsOpen;
+   setting.classList.toggle("active", settingIsOpen);
+   if (settingIsOpen) setting.classList.add("show");
+   else setTimeout(() => setting.classList.remove("show"), 200);
 })
 window.addEventListener("click", () => {
 game.playBGaudio();

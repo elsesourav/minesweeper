@@ -47,6 +47,7 @@ class Game {
       this.c.lineWidth = this.size / 20;
       this.c.imageSmoothingEnabled = false;
       timeBox.innerText = "000";
+      timeBox.style.color = "white";
       flagCoutn.innerText = this.mine;
       moveFlag.style.width = `${this.size / 1.8}px`;
       moveFlag.style.height = `${this.size / 1.8}px`;
@@ -168,7 +169,6 @@ class Game {
                   if (mine) {
                      // GAME OVER
                      this.#gameOver();
-                     this.#setEmojiStatus("over");
                      clearInterval(this.intervalID);
                      return true;
                   } else if (neighbors === 0) {
@@ -280,6 +280,11 @@ class Game {
          // __fps.innerHTML = "FPS: " + this.fpsCount;
          // this.fpsCount = 0;
          this.timer++;
+         if (this.timer > 998) {
+            this.#gameOver();
+            clearInterval(this.intervalID);
+            timeBox.style.color = "red";
+         }
          timeBox.innerText = this.timer > 99 ? this.timer
             : this.timer > 9 ? `0${this.timer}` : `00${this.timer}`;
 
@@ -309,6 +314,7 @@ class Game {
    #gameOver() {
       this.isGameOver = true;
       this.mp3.boom.play();
+      this.#setEmojiStatus("over");
       this.grid.forEach(_ => _.forEach(c => {
          if (c.mine) c.show = true;
          else c.open = true;
@@ -339,7 +345,7 @@ class Game {
 
    playBGaudio() {
       this.mp3.bg.loop = true;
-      this.mp3.bg.play();
+      // this.mp3.bg.play();
    }
 
    #playFlagAudio() {
