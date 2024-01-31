@@ -15,11 +15,9 @@ let musicVolume = 1;
 let effectVolume = 1;
 
 const imgs = {
-   boom: new Image(),
-   flag: new Image()
+   boom: imgBoom,
+   flag: imgFlag
 }
-imgs.boom.src = "../src/img/explosions.png";
-imgs.flag.src = "../src/img/flag.png";
 
 const mp3 = {
    bg: $("audio_bg"),
