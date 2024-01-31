@@ -5,9 +5,9 @@ if (isMobile) {
 
 const localKey = "___S_B__Minesweeper___";
 const maps = [5, 7, 10, 14];
-const deff = [1.2, 2.4, 4]
+const deff = [1, 2, 4]
 let fps = 15;
-let cols = 5; // minimum 5 columns use
+let cols = 5;
 let rows = cols % 2 ? cols + 2 : cols + 3;
 let selectDeffIndex = 0;
 let mapSizeIndex = 0;
@@ -92,13 +92,13 @@ window.addEventListener("click", () => game.playBGaudio(), { once: true })
 
 musicInput.addEventListener("change", (e) => {
    const value = Number(e.target.value);
-   game.setMusicVolume(musicVolume = value * value);
+   game.setMusicVolume(musicVolume = value);
    updateLocalValues();
 });
 
 effectInput.addEventListener("change", (e) => {
    const value = Number(e.target.value);
-   game.setEffectVolume(effectVolume = value * value);
+   game.setEffectVolume(effectVolume = value);
    updateLocalValues();
 });
 
